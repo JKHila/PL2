@@ -29,7 +29,7 @@ CStringA Interpreter::getResult(){
 int Interpreter::calc(CString subString, int *i)
 {
 	int j = 0;
-	int a1, a2;
+	int cal1, cal2;
 	CString lineBuffer;
 	CString buffer;
 	AfxExtractSubString(lineBuffer, subString, *i, '\n');
@@ -42,16 +42,16 @@ int Interpreter::calc(CString subString, int *i)
 		} 
 		else if (buffer == "MINUS\r")
 		{
-			a1 = calc(subString, i);
-			a2 = calc(subString, i);
-			return a1 - a2;
+			cal1 = calc(subString, i);
+			cal2 = calc(subString, i);
+			return cal1 - cal2;
 		} 
 		else if (buffer == "IF\r")
 		{
-			a1 = calc(subString, i);
-			a2 = calc(subString, i);
-			if (a1 > 0)
-				return a2;
+			cal1 = calc(subString, i);
+			cal2 = calc(subString, i);
+			if (cal1 > 0)
+				return cal2;
 			else
 				return 0;
 		}
