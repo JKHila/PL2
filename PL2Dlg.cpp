@@ -366,6 +366,7 @@ void CPL2Dlg::OnBnClickedButton4()
 
 		//PostfixToIntermediate class 생성
 		tointermediate = new PostfixToIntermediate(topostfix->getPostfix());
+		tointermediate2 = new PostfixToIntermediate(topostfix->getPrefix());
 		//기존것 내용지우고 받아온 메세지 집어넣음
 		intermediate_code_editbox.Format(_T(""));
 
@@ -386,7 +387,7 @@ void CPL2Dlg::OnBnClickedButton4()
 		intermediate_code_editbox.Append(_T("\r\n"));
 
 		//중간코드
-		CString tmp1(tointermediate->getIntermediate());
+		CString tmp1(tointermediate2->getIntermediate());
 		intermediate_code_editbox.Append(tmp1);
 
 
@@ -556,7 +557,7 @@ void CPL2Dlg::OnBnClickedButton7()
 		//result editbox 초기화
 		result_editbox.Format(_T(""));
 		//Interpreter class 생성
-		Interpreter in(tointermediate->getIntermediate());
+		Interpreter in(tointermediate2->getIntermediate());
 		//결과 받아오기
 		CString temp(in.getResult());
 		//출력

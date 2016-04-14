@@ -69,6 +69,7 @@ public:
 	//PostfixToIntermediate class-> 후위 표현식을 중간 코드로 바꿔주는 class
 	//생성자로 InfixToPostfix Class에서 만든 list<CStringA>(후위표기식 한줄씩 들어가 있다)를 받는다.
 	PostfixToIntermediate *tointermediate = NULL;
+	PostfixToIntermediate *tointermediate2 = NULL;
 	//load_intermediate class -> 파일로부터 직접 읽어온 중간 코드를 저장하는 CStringA
 	CStringA *load_intermediate = NULL;
 

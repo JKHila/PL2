@@ -22,12 +22,14 @@ private:
 	int current_opnum;
 	//올바른 식들을 list형태로 저장하게 된다.
 	std::list<CStringA> listofPostfix;
+	std::list<CStringA> listofPretfix;
 
 	//오류 메세지 + 올바른 식의 후위표기식
 	CStringA message;
 
 	//줄 단위로 임시 저장
 	CStringA tmp_str;
+	CStringA tmp_prf;
 
 	//에러 번호
 	//0: 에러 X, 1: 피연산자가 실수 일때, 2: 괄호 잘못사용 되었을때
@@ -86,7 +88,9 @@ public:
 	~InfixToPostfix();
 	//올바른 식들 후위식으로 넘겨줌
 	std::list<CStringA> getPostfix();
+	std::list<CStringA> getPrefix();
 	//오류 메세지 + 올바른 식의 후위표기식
 	CString getMessage_Postfix();
+
 };
 

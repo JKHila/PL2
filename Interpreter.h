@@ -13,7 +13,8 @@ class Interpreter
 {
 private:
 	//중간 코드 계산
-	void calc();
+	int calc(CString subString, int* i);
+	//void opr_Calc();
 	//중간코드
 	CStringA intermediate;
 	//결과 
