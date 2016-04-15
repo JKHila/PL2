@@ -25,7 +25,7 @@ void Interpreter::calc()
 {
 	//전체 길이
 	int len = intermediate.GetLength();
-	int i,stackCnt;
+	int i;
 	//중간 코드 버퍼
 	char *intermediate_pointer = intermediate.GetBuffer();
 
@@ -35,7 +35,6 @@ void Interpreter::calc()
 	bool undefined=false;
 	bool error_program=true;
 	std::stack<int> cal_stack;
-	std::stack<char*> opr_stack;
 
 	for (i = 0; i < len; i++){
 		//라인 한줄
@@ -62,7 +61,7 @@ void Interpreter::calc()
 		}
 
 		//시작일때, undefined false, stack 초기화
-		if (strcmp(token, "begin")==0){
+		if (!strcmp(token, "begin")){
 			undefined = false;
 			error_program = false;
 			//end 없이 begin다시 만나면
@@ -74,7 +73,7 @@ void Interpreter::calc()
 			}
 		}
 		//푸쉬 만남
-		else if (strcmp(token, "push")==0){
+		else if (!strcmp(token, "push")){
 			//아직 변수 나오지 않음
 			if (!undefined && !error_program){
 				//push 뒤 토큰 읽음
@@ -82,64 +81,15 @@ void Interpreter::calc()
 				//상수
 				if (isdigit(token[0]) || token[0] == '-'){
 					cal_stack.push(atoi(token));
-					stackCnt++;
 				}
 				//변수
 				else{
 					undefined = true;
 				}
-				int cal1, cal2;
-				if (stackCnt >= 2) {
-					if (strcmp(opr_stack.top(), oper[0]) == 0) {
-						cal2 = cal_stack.top();
-						cal_stack.pop();
-						cal1 = cal_stack.top();
-						cal_stack.pop();
-						if (cal1 > 0) {
-							cal_stack.push(cal2);
-						}
-						else {
-							cal_stack.push(0);
-						}
-					}
-					else if(strcmp(opr_stack.top(), oper[1]) == 0) {
-						cal2 = cal_stack.top();
-						cal_stack.pop();
-						cal1 = cal_stack.top();
-						cal_stack.pop();
-						cal_stack.push(cal1 - cal2);
-					}
-					stackCnt--;
-					opr_stack.pop();
-				}
 			}
 		}
 		//end 만남
-		else if (strcmp(token, "end")==0){
-			while (!opr_stack.empty()) {
-				int cal1, cal2;
-				if (strcmp(opr_stack.top(), oper[0]) == 0) {
-					cal2 = cal_stack.top();
-					cal_stack.pop();
-					cal1 = cal_stack.top();
-					cal_stack.pop();
-					if (cal1 > 0) {
-						cal_stack.push(cal2);
-					}
-					else {
-						cal_stack.push(0);
-					}
-				}
-				else if (strcmp(opr_stack.top(), oper[1]) == 0) {
-					cal2 = cal_stack.top();
-					cal_stack.pop();
-					cal1 = cal_stack.top();
-					cal_stack.pop();
-					cal_stack.push(cal1 - cal2);
-				}
-				stackCnt--;
-				opr_stack.pop();
-			}
+		else if (!strcmp(token, "end")){
 			//변수 있을 때
 			if (undefined){
 				result.Append("Undefined\r\n");
@@ -170,9 +120,8 @@ void Interpreter::calc()
 				int cal1, cal2;
 				//IF
 				if (!strcmp(token, oper[0])){
-					opr_stack.push(oper[0]);
 					//stack에 최소 2개이상있어야한다.
-					/*if (cal_stack.size() >= 2){
+					if (cal_stack.size() >= 2){
 						cal2 = cal_stack.top();
 						cal_stack.pop();
 						cal1 = cal_stack.top();
@@ -187,12 +136,11 @@ void Interpreter::calc()
 					//err시
 					else{
 						error_program = true;
-					}*/
+					}
 				}
 				//MINUS
 				else if (!strcmp(token, oper[1])){
-					opr_stack.push(oper[1]);
-					/*if (cal_stack.size() >= 2){
+					if (cal_stack.size() >= 2){
 						cal2 = cal_stack.top();
 						cal_stack.pop();
 						cal1 = cal_stack.top();
@@ -202,15 +150,13 @@ void Interpreter::calc()
 					//err시
 					else{
 						error_program = true;
-					}*/
+					}
 				}
 				//정의되지 않은 연산자
 				else{
 					error_program = true;
 				}
-				stackCnt = 0;
 			}
 		}
-		
 	}
 }
